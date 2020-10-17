@@ -1,27 +1,57 @@
+<style>
+.main-title {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #ff8c00;
+}
+
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 7rem 3rem;
+}
+
+@media (max-width: 700px) {
+  .main-title {
+    font-size: 2.5rem;
+  }
+  .card-list {
+    grid-template-columns: 1fr;
+    gap: 2rem 1rem;
+  }
+}
+</style>
+
+<script context="module">
+export async function preload() {
+  const res = await this.fetch('Data/2019Team.json');
+  const datas = await res.json();
+  return { datas };
+}
+</script>
+
+<script>
+import TeamComponent from '../components/TeamComponent.svelte';
+
+export let datas;
+</script>
+
 <svelte:head>
   <title>Team - 2019</title>
 </svelte:head>
-
-<script>
-  import {onMount} from 'svelte';
-  import TeamComponent from '../components/TeamComponent.svelte';
-
-  let datas = [];
-
-  onMount(async () => {
-    const res = await fetch('./Data/2019Team.json');
-    const textData = await res.text();
-    datas = await JSON.parse(textData);
-  });
-</script>
-
-<div class="main-title">OUR TEAM <br> 2019-2020</div>
+<div class="main-title">OUR TEAM <br /> 2019-2020</div>
 
 <section class="card-list">
-  {#each datas as data (data.id)} 
-    <TeamComponent imgSrc={data.imgSrc} name={data.name} role={data.role}
-    gitLink={data.gitlink} />
-  {/each} 
+  {#each datas as data (data.id)}
+    <TeamComponent
+      imgSrc="{data.imgSrc}"
+      name="{data.name}"
+      role="{data.role}"
+      gitLink="{data.gitlink}"
+    />
+  {/each}
 </section>
 
 <div class="other-team">
